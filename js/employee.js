@@ -18,7 +18,7 @@ var employeesList;
     xhttp.send();
 }*/
 
-(function addEmployee(){
+/*function addEmployee(){
     console.log("In POST request")
     let employee = {name:"Indrasen", email:"indrasen@gmail.com", active: "Y"};
     fetch('http://localhost:3000/employees',{
@@ -29,9 +29,9 @@ var employeesList;
         body:  JSON.stringify(employee)
     }).then((res)=>console.log(res)).catch((err)=>console.log(err));
 
-})();
+};*/
 
-function getEmployeeList(){
+/*(function getEmployeeList(){
    fetch('http://localhost:3000/employees')
    .then((res)=>{
        res.json()
@@ -43,23 +43,54 @@ function getEmployeeList(){
    .catch((err)=>{
        console.log(err)
    });
-}
+})();*/
 // 1,2,3,4
 // 2,4,6,8
 //newArr = arr.map((elem)=>elem*2)
 
-function displayEmployees(){
-   let employeesDispCont = employeesList.map((employee)=>`<li>${employee.name}(${employee.active?'Y':'N'})-${employee.email}</li>`);
-   console.log(employeesDispCont);
-   let element = document.getElementById('employeeList');
-   let innerHTML = "";
-   for(let index = 0; index<employeesDispCont.length; index++){
-    innerHTML = innerHTML.concat(employeesDispCont[index]);
-   }
-   element.innerHTML = innerHTML;
+
+
+$(function(){
+    /*$.get('http://localhost:3000/employees',function(response){
+        employeesList = response;
+        displayEmployees();
+    })*/
+
+   /* $('ul').load('http://localhost:3000/employees', function(response){
+        console.log(response);
+    });*/
+
+    $.ajax({
+        url: 'http://localhost:3000/employees',
+        type: 'GET',
+        success: function(response){
+            employeesList = response;
+            displayEmployees();
+        }
+    });
+
+    
+})
+
+function addEmployee(){
+    console.log("In POST request")
+    let employee = {name:"Divyansh", email:"indrasen@gmail.com", active: "Y"};
+    $.post('http://localhost:3000/employees',employee,function(response){
+        console.log(response);
+    })
 }
 
-window.onload = ()=>{
-    let element = document.getElementsByName('username')[0];
-    element.value = 'John';
-}
+function displayEmployees(){
+    let employeesDispCont = employeesList.map((employee)=>`<li>${employee.name}(${employee.active?'Y':'N'})-${employee.email}</li>`);
+    console.log(employeesDispCont);
+    let element = document.getElementById('employeeList');
+    let innerHTML = "";
+    for(let index = 0; index<employeesDispCont.length; index++){
+     innerHTML = innerHTML.concat(employeesDispCont[index]);
+    }
+    element.innerHTML = innerHTML;
+ }
+
+
+
+
